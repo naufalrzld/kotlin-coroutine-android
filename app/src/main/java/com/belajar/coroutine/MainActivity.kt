@@ -2,7 +2,9 @@ package com.belajar.coroutine
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.belajar.coroutine.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +29,11 @@ class MainActivity : AppCompatActivity() {
              * HINT: Gunakan fungsi joinToString(", ") untuk menggabungkan isi dari listOf<String>
              *     menjadi sebuah string utuh.
              **/
+            lifecycleScope.launch {
+                val listOfString = remoteDataSource.fetchListOfStringFromAPI()
+                result = "${listOfString.joinToString(", ")} - Executed at ${Thread.currentThread()}\n\n$result"
+                binding.tvResult.text = result
+            }
         }
 
         binding.btnGetString.setOnClickListener {
@@ -36,6 +43,11 @@ class MainActivity : AppCompatActivity() {
              *  dari RemoteDataSource. Simpan hasilnya ke dalam variable result
              *  dan tampilkan value result ke tvResult.
              **/
+            lifecycleScope.launch {
+                val string = remoteDataSource.fetchStringFromAPI()
+                result = "$string - Executed at ${Thread.currentThread()}\n\n$result"
+                binding.tvResult.text = result
+            }
         }
     }
 }
